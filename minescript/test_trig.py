@@ -5,11 +5,17 @@ def trig_time(target_x, target_y, target_z):
     dx = target_x - 0
     dy = target_y - 0
     dz = target_z - 0
-    
+
     horizontal_dist = math.sqrt(dx**2 + dz**2)
-    pitch = math.atan2(dy, horizontal_dist) * (180 / math.pi)
+    pitch = math.atan2(dy, dx) * (180 / math.pi)
     yaw = math.atan2(dx, dz) * (180.0 / math.pi)
     return yaw, pitch
+10
+10
 
 
-trig_time(input(), input(), input())
+x=input("whats x")
+y=input("whats y")
+z=input("whats z")
+
+print(trig_time(int(x), int(y), int(z)))
