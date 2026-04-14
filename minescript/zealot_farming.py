@@ -71,7 +71,7 @@ def has_line_of_sight(start_pos, end_pos, steps=20):
     dz = end_pos[2] - start_pos[2]
     distance = math.sqrt(dx**2 + dy**2 + dz**2)
     
-    if distance == 0:
+    if distance < 2:
         return True  # Same position, trivially clear
     
     for i in range(1, steps + 1):
@@ -83,6 +83,7 @@ def has_line_of_sight(start_pos, end_pos, steps=20):
         block = m.get_block(int(x), int(y), int(z))
         if block != 'minecraft:air':
             return False  # Obstruction found
+        else
         m.echo("Line of sight ended")
     
     return True  # Clear line of sight
