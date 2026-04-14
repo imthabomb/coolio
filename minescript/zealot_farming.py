@@ -56,7 +56,7 @@ def trig_time(target_x, target_y, target_z):
     dz = target_z - player_pos[2]
     horizontal_dist = math.sqrt(dx**2 + dz**2)
     pitch = math.atan2(dy, horizontal_dist) * (180 / math.pi)
-    yaw = -math.atan2(dx, dz) * (180.0 / math.pi)
+    yaw = math.atan2(dx, dz) * (180.0 / math.pi)
     return yaw, pitch
 
 def has_line_of_sight(start_pos, end_pos, steps=20):
@@ -65,6 +65,7 @@ def has_line_of_sight(start_pos, end_pos, steps=20):
     start_pos and end_pos are tuples/lists: (x, y, z)
     steps: number of points to check along the line (higher = more accurate but slower)
     """
+    m.echo("Line of sight started")
     dx = end_pos[0] - start_pos[0]
     dy = end_pos[1] - start_pos[1]
     dz = end_pos[2] - start_pos[2]
@@ -82,6 +83,7 @@ def has_line_of_sight(start_pos, end_pos, steps=20):
         block = m.get_block(int(x), int(y), int(z))
         if block != 'minecraft:air':
             return False  # Obstruction found
+        m.echo("Line of sight ended")
     
     return True  # Clear line of sight
 
@@ -90,7 +92,9 @@ for e in m.entities():
     
     if "Zealot Bruiser" in e.name and has_line_of_sight(m.player_position(), e.position) == True:
         m.echo(f"{e.name} passed checks")
-        look(*trig_time(e.position[0], e.position[1], e.position[2]))
+        Target_pitch, Target_yaw = trig_time(e.position[0], e.position[1], e.position[2])
+        m.echo(f"target pitch ={Target_pitch} Target yaw ={Target_yaw}")
+        look(Target_pitch, Target_yaw)
         
         m.player_press_use(True)
         m.player_press_use(False)
